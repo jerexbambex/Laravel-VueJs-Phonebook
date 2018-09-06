@@ -1,7 +1,7 @@
 <template>
 	<div class="modal" :class='openmodal'>
 		<div class="modal-background"></div>
-		<div class="modal-card box-shadow2">
+		<div class="modal-card box-shadow">
 			<header class="modal-card-head">
 				<p class="modal-card-title">{{ list.name }}'s Details</p>
 				<!-- <button class="delete" aria-label="close" @click='close'></button> -->

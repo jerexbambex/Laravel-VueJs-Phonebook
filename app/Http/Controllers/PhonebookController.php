@@ -20,7 +20,7 @@ class PhonebookController extends Controller
 
     public function getData()
     {
-        return Phonebook::orderBy('name', 'DESC')->get();
+        return Phonebook::orderBy('name', 'ASC')->get();
     }
 
     /**
@@ -46,6 +46,9 @@ class PhonebookController extends Controller
         $pb->phone = $request->phone;
         $pb->email = $request->email;
         $pb->save();
+
+        // return Phonebook::orderBy('name', 'ASC')->get();
+        return $pb;
     }
 
     /**
@@ -94,6 +97,6 @@ class PhonebookController extends Controller
      */
     public function destroy(Phonebook $phonebook)
     {
-        //
+        Phonebook::where('id', $phonebook->id)->delete();
     }
 }

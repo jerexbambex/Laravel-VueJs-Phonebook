@@ -12,7 +12,7 @@
 			<div class="field">
 				<label for="name" class="label">Name</label>
 				<div class="control">
-					<input class="input my-input" :class="{'is-danger':errors.name}" type="text" placeholder="Fullname" v-model='list.name'>
+					<input class="input my-input" :class="{'is-danger':errors.name}" type="text" placeholder="Fullname" v-model='list.name' autofocus>
 				</div>
 				<small v-if="errors.name" class="has-text-danger">{{ errors.name[0] }}</small>
 			</div>
@@ -73,7 +73,12 @@
 				this.$emit('closeRequest')
 			},
 			save() {
-				axios.post('/phonebook', this.$data.list).then((response) => this.close()).catch((error) => this.errors = error.response.data.errors)
+				axios.post('/phonebook', this.$data.list)
+				.then((response) => {
+					this.close()
+					this.$parent.lists.push(response.data)
+				})
+				.catch((error) => this.errors = error.response.data.errors)
 			}
 		}
 	}

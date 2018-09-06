@@ -8,8 +8,9 @@ html, h1, h2, h3, h4, h5, h6, p, input, label, body, button {
 }
 
 .my-input {
-	padding: 5px !important;
-	border-radius: 6px !important;
+	padding: 15px !important;
+	border: 1px solid #dbdbdb !important;
+	border-radius: 4px !important;
 	box-shadow: none !important;
 	border: none;
 	background-color: hsl(210, 9%, 96%);
@@ -73,5 +74,5 @@ html, h1, h2, h3, h4, h5, h6, p, input, label, body, button {
 }
 
 .card-border {
-	border: 1px solid #dbdbdb !important;
+	/*border: 1px solid #dbdbdb !important;*/
 }

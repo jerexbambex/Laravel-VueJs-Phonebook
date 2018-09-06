@@ -8,11 +8,14 @@
 						Add New
 					</button>
 				</span>
+				<span class="is-pulled-right" v-if="loading">
+					<i class="fa fa-circle-o-notch fa-spin fa-1x icon"></i>
+				</span>
 
 			</div>
 			<div class="panel-block">
 				<p class="control has-icons-left">
-					<input class="input" type="text" placeholder="search" style="border: 0px; background-color: hsl(210, 9%, 96%); box-shadow: none !important; border-radius: 30px !important;">
+					<input class="input" type="text" placeholder="search" style="border: 0px; background-color: hsl(210, 9%, 96%); box-shadow: none !important; border-radius: 30px !important;" autofocus>
 					<span class="icon is-left">
 						<i class="fa fa-search" aria-hidden="true"></i>
 					</span>
@@ -25,11 +28,11 @@
 				</span>
 
 				<div class="navbar-end is-right">
-					<span class="icon-text" @click="openShow(key)">View</span>
+					<a class="icon-text" @click="openShow(key)">View</a>
 					<span class="is-small icon-text">|</span>
-					<span class="icon-text" @click="openUpdate(key)">Edit</span>
+					<a class="icon-text" @click="openUpdate(key)">Edit</a>
 					<span class="is-small icon-text">|</span>
-					<span class="icon-text has-text-danger">Delete</span>
+					<a class="icon-text has-text-danger" @click="del(key, item.id)">Delete</a>
 				</div>
 			</a>
 		</nav>
@@ -52,7 +55,8 @@
 				showActive : '',
 				updateActive : '',
 				lists: {},
-				errors: {}
+				errors: {},
+				loading: false
 			}
 		},
 		mounted() {
@@ -74,6 +78,14 @@
 			},
 			close() {
 				this.addActive = this.showActive = this.updateActive = ''
+			},
+			del(key, id) {
+				if (confirm("Are you sure ?")) {
+					this.loading = !this.loading
+					axios.delete(`/phonebook/${id}`)
+					.then((response) => {this.lists.splice(key, 1);this.loading = !this.loading})
+					.catch((error) => this.errors = error.response.data.errors);
+				}
 			}
 		}
 	}
