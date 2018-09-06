@@ -46468,16 +46468,32 @@ Vue.component('update', __webpack_require__(56));
 			updateActive: '',
 			lists: {},
 			errors: {},
-			loading: false
+			loading: false,
+			searchQuery: '',
+			temp: ''
 		};
 	},
+
+	watch: {
+		searchQuery: function searchQuery() {
+			var _this = this;
+
+			if (this.searchQuery.length > 0) {
+				this.temp = this.lists.filter(function (item) {
+					return item.name.toLowerCase().indexOf(_this.searchQuery.toLowerCase()) > -1;
+				});
+			} else {
+				this.temp = this.lists;
+			}
+		}
+	},
 	mounted: function mounted() {
-		var _this = this;
+		var _this2 = this;
 
 		axios.post('/getData').then(function (response) {
-			return _this.lists = response.data;
+			return _this2.lists = _this2.temp = response.data;
 		}).catch(function (error) {
-			return _this.errors = error.response.data.errors;
+			return _this2.errors = error.response.data.errors;
 		});
 	},
 
@@ -46497,14 +46513,14 @@ Vue.component('update', __webpack_require__(56));
 			this.addActive = this.showActive = this.updateActive = '';
 		},
 		del: function del(key, id) {
-			var _this2 = this;
+			var _this3 = this;
 
 			if (confirm("Are you sure ?")) {
 				this.loading = !this.loading;
 				axios.delete('/phonebook/' + id).then(function (response) {
-					_this2.lists.splice(key, 1);_this2.loading = !_this2.loading;
+					_this3.lists.splice(key, 1);_this3.loading = !_this3.loading;
 				}).catch(function (error) {
-					return _this2.errors = error.response.data.errors;
+					return _this3.errors = error.response.data.errors;
 				});
 			}
 		}
@@ -46619,6 +46635,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['openmodal'],
@@ -46643,6 +46661,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			axios.post('/phonebook', this.$data.list).then(function (response) {
 				_this.close();
 				_this.$parent.lists.push(response.data);
+				_this.$parent.lists.sort(function (a, b) {
+					if (a.name > b.name) {
+						return 1;
+					} else if (a.name < b.name) {
+						return -1;
+					}
+				});
+				_this.list = "";
 			}).catch(function (error) {
 				return _this.errors = error.response.data.errors;
 			});
@@ -46698,7 +46724,11 @@ var render = function() {
               ],
               staticClass: "input my-input",
               class: { "is-danger": _vm.errors.name },
-              attrs: { type: "text", placeholder: "Fullname", autofocus: "" },
+              attrs: {
+                type: "text",
+                placeholder: "Fullname",
+                autofocus: "true"
+              },
               domProps: { value: _vm.list.name },
               on: {
                 input: function($event) {
@@ -47438,9 +47468,41 @@ var render = function() {
               : _vm._e()
           ]),
           _vm._v(" "),
-          _vm._m(0),
+          _c("div", { staticClass: "panel-block" }, [
+            _c("p", { staticClass: "control has-icons-left" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.searchQuery,
+                    expression: "searchQuery"
+                  }
+                ],
+                staticClass: "input",
+                staticStyle: {
+                  border: "0px",
+                  "background-color": "hsl(210, 9%, 96%)",
+                  "box-shadow": "none !important",
+                  "border-radius": "30px !important"
+                },
+                attrs: { type: "text", placeholder: "search" },
+                domProps: { value: _vm.searchQuery },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.searchQuery = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm._m(0)
+            ])
+          ]),
           _vm._v(" "),
-          _vm._l(_vm.lists, function(item, key) {
+          _vm._l(_vm.temp, function(item, key) {
             return _c("a", { staticClass: "panel-block table-padding" }, [
               _c("span", { staticClass: "is-9" }, [
                 _vm._m(1, true),
@@ -47524,26 +47586,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "panel-block" }, [
-      _c("p", { staticClass: "control has-icons-left" }, [
-        _c("input", {
-          staticClass: "input",
-          staticStyle: {
-            border: "0px",
-            "background-color": "hsl(210, 9%, 96%)",
-            "box-shadow": "none !important",
-            "border-radius": "30px !important"
-          },
-          attrs: { type: "text", placeholder: "search", autofocus: "" }
-        }),
-        _vm._v(" "),
-        _c("span", { staticClass: "icon is-left" }, [
-          _c("i", {
-            staticClass: "fa fa-search",
-            attrs: { "aria-hidden": "true" }
-          })
-        ])
-      ])
+    return _c("span", { staticClass: "icon is-left" }, [
+      _c("i", { staticClass: "fa fa-search", attrs: { "aria-hidden": "true" } })
     ])
   },
   function() {

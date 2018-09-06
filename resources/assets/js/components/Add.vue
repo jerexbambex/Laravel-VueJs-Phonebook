@@ -12,7 +12,7 @@
 			<div class="field">
 				<label for="name" class="label">Name</label>
 				<div class="control">
-					<input class="input my-input" :class="{'is-danger':errors.name}" type="text" placeholder="Fullname" v-model='list.name' autofocus>
+					<input class="input my-input" :class="{'is-danger':errors.name}" type="text" placeholder="Fullname" v-model='list.name' autofocus=true>
 				</div>
 				<small v-if="errors.name" class="has-text-danger">{{ errors.name[0] }}</small>
 			</div>
@@ -34,6 +34,7 @@
 			</div>
 
 			</section>
+
 			<footer class="modal-card-foot">
 				<div class="media-content">
 					<nav class="level">
@@ -49,6 +50,7 @@
 					</nav>
 				</div>
 			</footer>
+
 		</div>
 	</div>
 </template>
@@ -77,6 +79,14 @@
 				.then((response) => {
 					this.close()
 					this.$parent.lists.push(response.data)
+					this.$parent.lists.sort(function(a, b) {
+						if (a.name > b.name) {
+							return 1;
+						}else if (a.name < b.name) {
+							return -1;
+						}
+					})
+					this.list = ""
 				})
 				.catch((error) => this.errors = error.response.data.errors)
 			}

@@ -15,13 +15,13 @@
 			</div>
 			<div class="panel-block">
 				<p class="control has-icons-left">
-					<input class="input" type="text" placeholder="search" style="border: 0px; background-color: hsl(210, 9%, 96%); box-shadow: none !important; border-radius: 30px !important;" autofocus>
+					<input class="input" type="text" placeholder="search" style="border: 0px; background-color: hsl(210, 9%, 96%); box-shadow: none !important; border-radius: 30px !important;" v-model="searchQuery">
 					<span class="icon is-left">
 						<i class="fa fa-search" aria-hidden="true"></i>
 					</span>
 				</p>
 			</div>
-			<a class="panel-block table-padding" v-for="item, key in lists">
+			<a class="panel-block table-padding" v-for="item, key in temp">
 				<span class="is-9">
 					<span class="icon is-small is-left"><img src="/img/eclispe.svg"></span>
 					{{ item.name }}
@@ -56,12 +56,25 @@
 				updateActive : '',
 				lists: {},
 				errors: {},
-				loading: false
+				loading: false,
+				searchQuery: '',
+				temp: ''
+			}
+		},
+		watch: {
+			searchQuery() {
+				if (this.searchQuery.length > 0) {
+					this.temp = this.lists.filter((item) => {
+						return item.name.toLowerCase().indexOf(this.searchQuery.toLowerCase()) > -1
+					})
+				}else {
+					this.temp = this.lists
+				}
 			}
 		},
 		mounted() {
 			axios.post('/getData')
-			  .then((response) => this.lists = response.data)
+			  .then((response) => this.lists = this.temp = response.data)
 			  .catch((error) => this.errors = error.response.data.errors);
 		},
 		methods: {
