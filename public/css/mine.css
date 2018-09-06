@@ -1,0 +1,77 @@
+@font-face {
+	font-family: 'circular';
+	src: url('/fonts/CircularStd-Book.woff');
+}
+
+html, h1, h2, h3, h4, h5, h6, p, input, label, body, button {
+	font-family: 'circular';
+}
+
+.my-input {
+	padding: 5px !important;
+	border-radius: 6px !important;
+	box-shadow: none !important;
+	border: none;
+	background-color: hsl(210, 9%, 96%);
+}
+
+.icon-text {
+	font-size: 12px;
+	color: #0954AB;
+	padding: 3px;
+}
+
+.icon-text:hover {
+	background-color: #F5F8FC;
+}
+
+.modal-card {
+	border-radius: 10px !important;
+	background: transparent !important;
+}
+
+.modal-card-foot {
+	border-top: 0 !important;
+	background-color: hsl(210, 9%, 96%);
+}
+
+.modal-card-head {
+	border-bottom: 0 !important;
+	background-color: #fff;
+}
+
+.modal-card-title {
+	font-size: 20px !important;
+	font-weight: 600 !important;
+}
+
+.box-shadow {
+	box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
+	border: none !important;
+	border-radius: 6px;
+	padding: 0px;
+}
+
+.box-shadow2 {
+	box-shadow: 2px 4px 8px 2px hsla(0, 0%, 0%, 0.3);
+	border: none !important;
+	border-radius: 6px;
+	padding: 0px;
+}
+.table-padding {
+	padding: 15px;
+	border: none !important;
+}
+
+.panel-heading, .panel-block {
+	border: none !important;
+}
+
+.modal-background {
+	background-color: hsl(200, 25%, 88%) !important;
+	opacity: 0.4;
+}
+
+.card-border {
+	border: 1px solid #dbdbdb !important;
+}
